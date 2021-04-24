@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Drawing;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,21 +29,51 @@ public class PlayerCtrl : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Randomly increase size by a bit
+        switch (collision.gameObject.tag){
+            case "Collective":
+                currentSize += Random.Range(0.1f, 0.3f);
+                Destroy(collision.gameObject);
+                break;
+            case "Enemy":
+                Destroy(gameObject);
+                GameOver();
+                break;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // On collision decrease size
+        if (collision.gameObject.tag == "Enemy")
+        {
+            //TODO
+            currentSize -= 0.15f;
+        }
+    }
+
+
     private void UpdateCanvas()
     {
         speedText.text = body.velocity.x.ToString("F1");
         sizeText.text = ((int)(currentSize * 100)).ToString() + "%";
     }
-
     private void GameOver()
     {
         SceneManager.LoadScene(2);
     }
-
-    private void UpdateSize()
+    private void UpdateSize(float add)
     {
-        // Check the moving of player, and change size
-        currentSize -= body.velocity.x * 0.0001f;
+        if (add == 0)
+        {
+            // Check the moving of player, and change size
+            currentSize -= body.velocity.x * 0.0001f;
+        } else
+        {
+            currentSize += add;
+        }
         float size = Mathf.Clamp(currentSize * 2, 0.8f, 2f);
         // Change size of player and collider size
         transform.localScale = new Vector3(size, size, 1);
@@ -59,7 +90,7 @@ public class PlayerCtrl : MonoBehaviour
     private void FixedUpdate()
     {
         // Change fixed speed based on size
-        fixedSpeed = currentSize * speedConstant;
+        fixedSpeed = Mathf.Clamp(currentSize * speedConstant, 10, 50);
         // Check if is on ground by checking overlap with a layer
         isGround = Physics2D.OverlapCircle(groundCheck.position, 0.1f, GroundLayer);
         isJump = !isGround;
@@ -67,7 +98,7 @@ public class PlayerCtrl : MonoBehaviour
         Move();
         Jump();
         
-        UpdateSize();
+        UpdateSize(0);
         
         UpdateCanvas();
         // Check Gameover, TODO record data, and go to gameover scene + add rock collide
@@ -88,7 +119,7 @@ public class PlayerCtrl : MonoBehaviour
         {
             body.velocity = new Vector2(fixedSpeed, body.velocity.y);
         }
-        body.AddForce(new Vector2(0, -50));
+        body.AddForce(new Vector2(0, -100 * currentSize));
     }
 
     void Jump()
@@ -115,7 +146,7 @@ public class PlayerCtrl : MonoBehaviour
         if (jumpPressed && isGround)
         {
             // Make jump verticle to the pipe by using tangent
-            float verticleJump = Mathf.Tan(Mathf.Abs(transform.rotation.z));
+            float verticleJump = Mathf.Tan(Mathf.Abs(transform.localRotation.eulerAngles.z - 360));
             body.AddForce(new Vector2(verticleJump * jumpSpeed, jumpSpeed));
             // body.velocity = new Vector2(body.velocity.x + verticleJump * Time.deltaTime, jumpSpeed * Time.deltaTime);
             jumpPressed = false;
