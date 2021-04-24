@@ -13,7 +13,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Pipe
   - 
   - 
   - 
@@ -40,4 +40,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Pipe
+    uniqueID: 4176003675
+    locked: 0
+  - name: Player
+    uniqueID: 2900394827
     locked: 0
