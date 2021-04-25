@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // Create new pipes if player reach the end of previous ones, and delete the earlier ones
@@ -11,14 +10,20 @@ public class InfinityPipe : MonoBehaviour
     public GameObject pipePrefab;
     public GameObject waterPrefab;
     public GameObject rockPrefab;
+    public Sprite rockAlternate;
     public GameObject crackPrefab;
     public GameObject enemyPrefab;
     public GameObject player;
+
+    public AudioSource source;
 
     private ArrayList pipes;
     private float angle;
     private void Start()
     {
+        source.loop = true;
+        source.Play();
+        // Play music on start
         pipes = new ArrayList();
         // Generate three pipes
         for (int i = 0; i < initAmount; i++)
@@ -64,20 +69,24 @@ public class InfinityPipe : MonoBehaviour
         // TODO: Make sure they dont overlap
         GenerateDrops().parent = pipe.transform;
         GenerateStones().parent = pipe.transform;
-        //GenerateCracks().parent = pipe.transform;
+        GenerateEnemy().parent = pipe.transform;
     }
 
     private Transform GenerateDrops()
     {
         // Generate two types of drops, moving ones and fixed ones
         GameObject drop = Instantiate(waterPrefab);
-        drop.transform.position = new Vector3(Random.Range(-length/2, length/2), Random.Range(-width / 2, width / 2), 0);
+        drop.transform.position = new Vector3(Random.Range(-length/2, length/2), Random.Range(-width / 2, 0), 0);
         return drop.transform;
     }
 
     private Transform GenerateStones()
     {
         GameObject rock = Instantiate(rockPrefab);
+        if (Random.value > 0.5f)
+        {
+            rock.GetComponent<SpriteRenderer>().sprite = rockAlternate;
+        }
         float scale = Random.Range(1.2f, 2.5f);
         rock.transform.localScale = new Vector3(scale, scale, 1);
         rock.transform.position = new Vector3(Random.Range(-length / 2, length / 2), -width / 2 + rock.GetComponent<Collider2D>().bounds.size.y / 2, 0);
@@ -95,8 +104,7 @@ public class InfinityPipe : MonoBehaviour
     private Transform GenerateEnemy()
     {
         GameObject enemy = Instantiate(enemyPrefab);
-        enemy.transform.localScale = new Vector3(Random.Range(0.8f, 1.2f), 1, 1);
-        enemy.transform.position = new Vector3(Random.Range(-length / 2, length / 2), width / 2, 0);
+        enemy.transform.position = new Vector3(Random.Range(-length / 2, length / 2), width / 6, 0);
         return enemy.transform;
     }
 }

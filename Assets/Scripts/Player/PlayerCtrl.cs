@@ -7,7 +7,7 @@ public class PlayerCtrl : MonoBehaviour
 {
     private Rigidbody2D body;
     private Animator playerAnimator;
-    public TextMeshProUGUI speedText;
+    public TextMeshProUGUI timeText;
     public TextMeshProUGUI sizeText;
 
     private float fixedSpeed; // Speed determined by size
@@ -15,7 +15,7 @@ public class PlayerCtrl : MonoBehaviour
     public float jumpSpeed = 1200f;
     private float currentSize;
     public float speedConstant = 12f;
-
+    private float startTime;
     // For checking if character has already touched ground
     public Transform groundCheck;
     public LayerMask GroundLayer;
@@ -23,6 +23,7 @@ public class PlayerCtrl : MonoBehaviour
     private bool jumpPressed;
     void Start()
     {
+        startTime = Time.time;
         // Initial size = 0.8
         currentSize = 0.8f;
         body = GetComponent<Rigidbody2D>();
@@ -57,7 +58,7 @@ public class PlayerCtrl : MonoBehaviour
 
     private void UpdateCanvas()
     {
-        speedText.text = body.velocity.x.ToString("F1");
+        timeText.text = (Time.time - startTime).ToString("F1") + "s";
         sizeText.text = ((int)(currentSize * 100)).ToString() + "%";
     }
     private void GameOver()
@@ -119,12 +120,19 @@ public class PlayerCtrl : MonoBehaviour
         {
             body.velocity = new Vector2(fixedSpeed, body.velocity.y);
         }
+        if (hInput > 0)
+        {
+            playerAnimator.SetBool("run", true);
+        } else
+        {
+            playerAnimator.SetBool("run", false);
+        }
         body.AddForce(new Vector2(0, -100 * currentSize));
     }
 
     void Jump()
     {
-        /*if (isGround)
+        if (isGround)
         {
             // This is changing the animation of character into idle
             playerAnimator.SetBool("Jumping", false);
@@ -141,7 +149,7 @@ public class PlayerCtrl : MonoBehaviour
             // This is changing the animation of character into falling
             playerAnimator.SetBool("Jumping", false);
             playerAnimator.SetBool("Falling", true);
-        }*/
+        }
 
         if (jumpPressed && isGround)
         {
