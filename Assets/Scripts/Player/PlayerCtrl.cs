@@ -67,6 +67,7 @@ public class PlayerCtrl : MonoBehaviour
     }
     private void UpdateSize(float add)
     {
+        
         if (add == 0)
         {
             // Check the moving of player, and change size
@@ -75,9 +76,9 @@ public class PlayerCtrl : MonoBehaviour
         {
             currentSize += add;
         }
-        float size = Mathf.Clamp(currentSize * 2, 0.8f, 2f);
+        float size = Mathf.Clamp(currentSize * 2, 0.5f, 2f);
         // Change size of player and collider size
-        transform.localScale = new Vector3(size, size, 1);
+        transform.localScale = new Vector3(size * 1.1f, size * 1.1f, 1);
     }
 
     void Update()
@@ -155,8 +156,14 @@ public class PlayerCtrl : MonoBehaviour
         {
             // Make jump verticle to the pipe by using tangent
             float verticleJump = Mathf.Tan(Mathf.Abs(transform.localRotation.eulerAngles.z - 360));
-            body.AddForce(new Vector2(verticleJump * jumpSpeed, jumpSpeed));
-            // body.velocity = new Vector2(body.velocity.x + verticleJump * Time.deltaTime, jumpSpeed * Time.deltaTime);
+            if (currentSize >= 0.6f)
+            {
+                body.AddForce(new Vector2(verticleJump * 1.4f * jumpSpeed, 1.4f * jumpSpeed));
+            }
+            else
+            {
+                body.AddForce(new Vector2(verticleJump * jumpSpeed, jumpSpeed));
+            }
             jumpPressed = false;
         }
     }

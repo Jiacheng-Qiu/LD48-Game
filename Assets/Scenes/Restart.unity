@@ -329,7 +329,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You are dead...
+  m_text: You are dry...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cf30b071b5dc28d42947c452f420df22, type: 2}
   m_sharedMaterial: {fileID: 8161328578011397084, guid: cf30b071b5dc28d42947c452f420df22, type: 2}
@@ -338,8 +338,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279506120
-  m_fontColor: {r: 0.7830189, g: 0.07756319, b: 0.07756319, a: 1}
+    rgba: 4294940944
+  m_fontColor: {r: 0.06132078, g: 0.6013387, b: 1, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:
@@ -878,7 +878,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PLAY Again
+  m_text: Try again!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cf30b071b5dc28d42947c452f420df22, type: 2}
   m_sharedMaterial: {fileID: 8161328578011397084, guid: cf30b071b5dc28d42947c452f420df22, type: 2}
@@ -1139,15 +1139,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 01c70e56399145a4ebf5c0fc2e0d4164, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

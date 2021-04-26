@@ -7,6 +7,7 @@ public class InfinityPipe : MonoBehaviour
     public float length;
     public float width;
     public int initAmount = 3;
+    private int curPipe;
     public GameObject pipePrefab;
     public GameObject waterPrefab;
     public GameObject rockPrefab;
@@ -66,45 +67,47 @@ public class InfinityPipe : MonoBehaviour
     // Generate objects in pipes
     private void GenerateAI(GameObject pipe)
     {
-        // TODO: Make sure they dont overlap
-        GenerateDrops().parent = pipe.transform;
-        GenerateStones().parent = pipe.transform;
-        GenerateEnemy().parent = pipe.transform;
+        GenerateDrops(pipe, curPipe);
+        GenerateStones(pipe, curPipe);
+        GenerateEnemy(pipe, curPipe);
+        curPipe++;
     }
 
-    private Transform GenerateDrops()
+    private void GenerateDrops(GameObject pipe, int index)
     {
-        // Generate two types of drops, moving ones and fixed ones
-        GameObject drop = Instantiate(waterPrefab);
-        drop.transform.position = new Vector3(Random.Range(-length/2, length/2), Random.Range(-width / 2, 0), 0);
-        return drop.transform;
+        index = 1 + index / 60;
+        float len = length / (index + 1);
+        for (int i = 0; i < index; i++)
+        {
+            GameObject drop = Instantiate(waterPrefab);
+            drop.transform.position = new Vector3(Random.Range(-length / 2 + len * i, -length / 2 + len * (i + 1)), Random.Range(-width / 3, 0), 0);
+            drop.transform.parent = pipe.transform;
+        }
     }
 
-    private Transform GenerateStones()
+    private void GenerateStones(GameObject pipe, int index)
     {
         GameObject rock = Instantiate(rockPrefab);
         if (Random.value > 0.5f)
         {
             rock.GetComponent<SpriteRenderer>().sprite = rockAlternate;
         }
-        float scale = Random.Range(1.2f, 2.5f);
+        float scale = Random.Range(1.4f, 2.5f);
         rock.transform.localScale = new Vector3(scale, scale, 1);
-        rock.transform.position = new Vector3(Random.Range(-length / 2, length / 2), -width / 2 + rock.GetComponent<Collider2D>().bounds.size.y / 2, 0);
-        return rock.transform;
+        rock.transform.position = new Vector3(Random.Range(-length / 2.2f, length / 2.2f), -width / 2 + rock.GetComponent<Collider2D>().bounds.size.y / 2, 0);
+        rock.transform.parent = pipe.transform;
+       
     }
 
-    private Transform GenerateCracks()
+    private void GenerateEnemy(GameObject pipe, int j)
     {
-        GameObject crack = Instantiate(crackPrefab);
-        crack.transform.localScale = new Vector3(Random.Range(0.8f, 1.2f), 1, 1);
-        crack.transform.position = new Vector3(Random.Range(-length / 2, length / 2), -width / 2, 0);
-        return crack.transform;
-    }
-
-    private Transform GenerateEnemy()
-    {
-        GameObject enemy = Instantiate(enemyPrefab);
-        enemy.transform.position = new Vector3(Random.Range(-length / 2, length / 2), width / 6, 0);
-        return enemy.transform;
+        int index = Mathf.Clamp(j / 8, 0, 3);
+        float len = length / (index + 1);
+        for (int i = 0; i < index; i++)
+        {
+            GameObject enemy = Instantiate(enemyPrefab);
+            enemy.transform.position = new Vector3(Random.Range(-length / 2 + len * i, -length / 2 + len * (i + 1)), width / 6, 0);
+            enemy.transform.parent = pipe.transform;
+        }
     }
 }

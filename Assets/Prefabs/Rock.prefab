@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8617371779136654822}
   - component: {fileID: 8617371779136654817}
-  - component: {fileID: 8617371779136654816}
+  - component: {fileID: 6399305645285086946}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Enemy
@@ -83,8 +83,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &8617371779136654816
-CircleCollider2D:
+--- !u!68 &6399305645285086946
+EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -96,6 +96,22 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.07}
-  serializedVersion: 2
-  m_Radius: 0.25
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.022215933, y: -0.31598517}
+  - {x: 0.24005319, y: -0.224595}
+  - {x: 0.25483537, y: -0.07239638}
+  - {x: 0.23813671, y: 0.016003221}
+  - {x: 0.18705322, y: 0.10890718}
+  - {x: 0.07119721, y: 0.17615145}
+  - {x: -0.044843264, y: 0.18940338}
+  - {x: -0.1739037, y: 0.124920554}
+  - {x: -0.24681005, y: 0.00038877502}
+  - {x: -0.25415674, y: -0.12592375}
+  - {x: -0.25437853, y: -0.3106186}
+  - {x: -0.022955447, y: -0.31605315}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
